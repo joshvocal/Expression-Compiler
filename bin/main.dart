@@ -1,5 +1,28 @@
-import 'package:ast/ast.dart' as ast;
+import 'dart:io';
 
-void main(List<String> arguments) {
-  print('Hello world: ${ast.calculate()}!');
+import 'package:ast/interpreter.dart';
+import 'package:ast/lexer.dart';
+import 'package:ast/parser.dart';
+
+void main() {
+  while (true) {
+    String text;
+
+    try {
+      text = stdin.readLineSync();
+    } catch (e) {
+      throw Exception('Input Error');
+    }
+
+    if (text == null) {
+      continue;
+    }
+
+    var lexer = Lexer(text);
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var result = interpreter.interpret();
+
+    print('Result: $result');
+  }
 }

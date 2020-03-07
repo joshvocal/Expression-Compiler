@@ -1,8 +1,81 @@
-import 'package:ast/ast.dart';
+import 'package:ast/ast_node.dart';
+import 'package:ast/exceptions.dart';
+import 'package:ast/interpreter.dart';
+import 'package:ast/token.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('calculate', () {
-    expect(calculate(), 42);
+  var interpreter = Interpreter(parser: null);
+
+  test('should calculate 1 + 1 correctly', () {
+    var plusToken = Token(type: TokenType.PLUS, value: '+');
+
+    var addNode = BinaryOp(
+      left: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+      op: plusToken,
+      right: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+    );
+
+    var actual = interpreter.visitNode(addNode);
+
+    expect(2.0, actual);
+  });
+
+  test('should calculate 1 - 1 correctly', () {
+    var minusToken = Token(type: TokenType.MINUS, value: '-');
+
+    var minusNode = BinaryOp(
+      left: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+      op: minusToken,
+      right: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+    );
+
+    var actual = interpreter.visitNode(minusNode);
+
+    expect(0.0, actual);
+  });
+
+  test('should calculate 1 * 1 correctly', () {
+    var multiplyToken = Token(type: TokenType.MULTIPLY, value: '*');
+
+    var multiplyNode = BinaryOp(
+      left: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      op: multiplyToken,
+      right: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+    );
+
+    var actual = interpreter.visitNode(multiplyNode);
+
+    expect(1.0, actual);
+  });
+
+  test('should calculate 1 / 1 correctly', () {
+    var divideToken = Token(type: TokenType.DIVIDE, value: '/');
+
+    var divideNode = BinaryOp(
+      left: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      op: divideToken,
+      right: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+    );
+
+    var actual = interpreter.visitNode(divideNode);
+
+    expect(1.0, actual);
+  });
+
+  test('should throw UnsupportedException from operator', () {
+    var divideToken = Token(type: TokenType.DIVIDE, value: 'a');
+
+    try {
+      var divideNode = BinaryOp(
+        left: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+        op: divideToken,
+        right: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      );
+
+      interpreter.visitNode(divideNode);
+    } catch (e) {
+      expect(e, UnsupportedException);
+    }
   });
 }

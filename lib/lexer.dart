@@ -51,42 +51,42 @@ class Lexer {
       }
 
       if (double.tryParse(_currentChar) != null) {
-        return Token(type: TokenType.INTEGER, value: integer());
+        return Token(TokenType.integer, integer());
       }
 
       if (_currentChar == '+') {
         advance();
-        return Token(type: TokenType.PLUS, value: '+');
+        return Token(TokenType.add, '+');
       }
 
       if (_currentChar == '-') {
         advance();
-        return Token(type: TokenType.MINUS, value: '-');
+        return Token(TokenType.subtract, '-');
       }
 
       if (_currentChar == '*') {
         advance();
-        return Token(type: TokenType.MULTIPLY, value: '*');
+        return Token(TokenType.multiply, '*');
       }
 
       if (_currentChar == '/') {
         advance();
-        return Token(type: TokenType.DIVIDE, value: '/');
+        return Token(TokenType.divide, '/');
       }
 
       if (_currentChar == '(') {
         advance();
-        return Token(type: TokenType.OPEN_BRACKET, value: '(');
+        return Token(TokenType.openBracket, '(');
       }
 
       if (_currentChar == ')') {
         advance();
-        return Token(type: TokenType.CLOSE_BRACKET, value: ')');
+        return Token(TokenType.closeBracket, ')');
       }
 
       throw TokenException(_currentChar);
     }
 
-    return Token(type: TokenType.EOF, value: null);
+    return Token(TokenType.eof, null);
   }
 }

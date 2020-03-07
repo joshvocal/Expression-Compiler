@@ -23,22 +23,22 @@ class Interpreter {
 
   double visitBinaryOp(OperatorNode node) {
     switch (node.op.type) {
-      case TokenType.PLUS:
+      case TokenType.add:
         return visitNode(node.left) + visitNode(node.right);
         break;
-      case TokenType.MINUS:
+      case TokenType.subtract:
         return visitNode(node.left) - visitNode(node.right);
         break;
-      case TokenType.MULTIPLY:
+      case TokenType.multiply:
         return visitNode(node.left) * visitNode(node.right);
         break;
-      case TokenType.DIVIDE:
+      case TokenType.divide:
         return visitNode(node.left) / visitNode(node.right);
         break;
-      case TokenType.OPEN_BRACKET:
-      case TokenType.CLOSE_BRACKET:
-      case TokenType.EOF:
-      case TokenType.INTEGER:
+      case TokenType.openBracket:
+      case TokenType.closeBracket:
+      case TokenType.eof:
+      case TokenType.integer:
         break;
     }
 

@@ -25,14 +25,14 @@ class Parser {
     var token = _currentToken;
     print('Factor: ${_currentToken.type} ${_currentToken.value}');
 
-    if (token.type == TokenType.INTEGER) {
-      consumeToken(TokenType.INTEGER);
+    if (token.type == TokenType.integer) {
+      consumeToken(TokenType.integer);
 
       return NumberNode(token);
-    } else if (token.type == TokenType.OPEN_BRACKET) {
-      consumeToken(TokenType.OPEN_BRACKET);
+    } else if (token.type == TokenType.openBracket) {
+      consumeToken(TokenType.openBracket);
       var node = expr();
-      consumeToken(TokenType.CLOSE_BRACKET);
+      consumeToken(TokenType.closeBracket);
 
       return node;
     }
@@ -45,13 +45,13 @@ class Parser {
     print('Term: ${_currentToken.type} ${_currentToken.value}');
 
     while (
-        [TokenType.MULTIPLY, TokenType.DIVIDE].contains(_currentToken.type)) {
+        [TokenType.multiply, TokenType.divide].contains(_currentToken.type)) {
       var token = _currentToken;
 
-      if (token.type == TokenType.MULTIPLY) {
-        consumeToken(TokenType.MULTIPLY);
-      } else if (token.type == TokenType.DIVIDE) {
-        consumeToken(TokenType.DIVIDE);
+      if (token.type == TokenType.multiply) {
+        consumeToken(TokenType.multiply);
+      } else if (token.type == TokenType.divide) {
+        consumeToken(TokenType.divide);
       }
 
       node = OperatorNode(left: node, op: token, right: factor());
@@ -64,13 +64,13 @@ class Parser {
     var node = term();
     print('Expr: ${_currentToken.type} ${_currentToken.value}');
 
-    while ([TokenType.PLUS, TokenType.MINUS].contains(_currentToken.type)) {
+    while ([TokenType.add, TokenType.subtract].contains(_currentToken.type)) {
       var token = _currentToken;
 
-      if (token.type == TokenType.PLUS) {
-        consumeToken(TokenType.PLUS);
-      } else if (token.type == TokenType.MINUS) {
-        consumeToken(TokenType.MINUS);
+      if (token.type == TokenType.add) {
+        consumeToken(TokenType.add);
+      } else if (token.type == TokenType.subtract) {
+        consumeToken(TokenType.subtract);
       }
 
       node = OperatorNode(left: node, op: token, right: term());

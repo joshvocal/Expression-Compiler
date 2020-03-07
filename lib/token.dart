@@ -1,25 +1,30 @@
 import 'package:meta/meta.dart';
 
 class Token {
-  TokenType type;
-  dynamic value;
+  final TokenType type;
+  final dynamic value;
 
-  Token({@required TokenType type, @required dynamic value}) {
-    this.type = type;
-    this.value = value;
-  }
+  Token(this.type, this.value);
 
   @override
   String toString() => type.toString();
 }
 
+class IntegerToken implements Token {
+  @override
+  TokenType get type => TokenType.integer;
+
+  @override
+  var value;
+}
+
 enum TokenType {
-  INTEGER,
-  PLUS,
-  MINUS,
-  MULTIPLY,
-  DIVIDE,
-  OPEN_BRACKET,
-  CLOSE_BRACKET,
-  EOF,
+  integer,
+  add,
+  subtract,
+  multiply,
+  divide,
+  openBracket,
+  closeBracket,
+  eof,
 }

@@ -8,12 +8,12 @@ void main() {
   var interpreter = Interpreter(parser: null);
 
   test('should calculate 1 + 1 correctly', () {
-    var plusToken = Token(type: TokenType.PLUS, value: '+');
+    var plusToken = Token(TokenType.add, '+');
 
     var addNode = OperatorNode(
-      left: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
+      left: NumberNode(Token(TokenType.integer, 1.0)),
       op: plusToken,
-      right: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
+      right: NumberNode(Token(TokenType.integer, 1.0)),
     );
 
     var actual = interpreter.visitNode(addNode);
@@ -22,12 +22,12 @@ void main() {
   });
 
   test('should calculate 1 - 1 correctly', () {
-    var minusToken = Token(type: TokenType.MINUS, value: '-');
+    var minusToken = Token(TokenType.subtract, '-');
 
     var minusNode = OperatorNode(
-      left: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
+      left: NumberNode(Token(TokenType.integer, 1.0)),
       op: minusToken,
-      right: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
+      right: NumberNode(Token(TokenType.integer, 1.0)),
     );
 
     var actual = interpreter.visitNode(minusNode);
@@ -36,12 +36,12 @@ void main() {
   });
 
   test('should calculate 1 * 1 correctly', () {
-    var multiplyToken = Token(type: TokenType.MULTIPLY, value: '*');
+    var multiplyToken = Token(TokenType.multiply, '*');
 
     var multiplyNode = OperatorNode(
-      left: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      left: NumberNode(Token(TokenType.multiply, 1.0)),
       op: multiplyToken,
-      right: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      right: NumberNode(Token(TokenType.multiply, 1.0)),
     );
 
     var actual = interpreter.visitNode(multiplyNode);
@@ -50,12 +50,12 @@ void main() {
   });
 
   test('should calculate 1 / 1 correctly', () {
-    var divideToken = Token(type: TokenType.DIVIDE, value: '/');
+    var divideToken = Token(TokenType.divide, '/');
 
     var divideNode = OperatorNode(
-      left: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      left: NumberNode(Token(TokenType.multiply, 1.0)),
       op: divideToken,
-      right: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      right: NumberNode(Token(TokenType.multiply, 1.0)),
     );
 
     var actual = interpreter.visitNode(divideNode);
@@ -64,13 +64,13 @@ void main() {
   });
 
   test('should throw UnsupportedException from operatort', () {
-    var divideToken = Token(type: TokenType.DIVIDE, value: 'a');
+    var divideToken = Token(TokenType.divide, 'a');
 
     try {
       var divideNode = OperatorNode(
-        left: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
+        left: NumberNode(Token(TokenType.multiply, 1.0)),
         op: divideToken,
-        right: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
+        right: NumberNode(Token(TokenType.multiply, 1.0)),
       );
 
       interpreter.visitNode(divideNode);

@@ -12,7 +12,7 @@ class Parser {
     _currentToken = lexer.getNextToken();
   }
 
-  void eat(TokenType tokenType) {
+  void consumeToken(TokenType tokenType) {
     if (_currentToken.type == tokenType) {
       _currentToken = _lexer.getNextToken();
       return;
@@ -26,13 +26,13 @@ class Parser {
     print('Factor: ${_currentToken.type} ${_currentToken.value}');
 
     if (token.type == TokenType.INTEGER) {
-      eat(TokenType.INTEGER);
+      consumeToken(TokenType.INTEGER);
 
       return NumberNode(token);
     } else if (token.type == TokenType.OPEN_BRACKET) {
-      eat(TokenType.OPEN_BRACKET);
+      consumeToken(TokenType.OPEN_BRACKET);
       var node = expr();
-      eat(TokenType.CLOSE_BRACKET);
+      consumeToken(TokenType.CLOSE_BRACKET);
 
       return node;
     }
@@ -45,13 +45,13 @@ class Parser {
     print('Term: ${_currentToken.type} ${_currentToken.value}');
 
     while (
-    [TokenType.MULTIPLY, TokenType.DIVIDE].contains(_currentToken.type)) {
+        [TokenType.MULTIPLY, TokenType.DIVIDE].contains(_currentToken.type)) {
       var token = _currentToken;
 
       if (token.type == TokenType.MULTIPLY) {
-        eat(TokenType.MULTIPLY);
+        consumeToken(TokenType.MULTIPLY);
       } else if (token.type == TokenType.DIVIDE) {
-        eat(TokenType.DIVIDE);
+        consumeToken(TokenType.DIVIDE);
       }
 
       node = OperatorNode(left: node, op: token, right: factor());
@@ -68,9 +68,9 @@ class Parser {
       var token = _currentToken;
 
       if (token.type == TokenType.PLUS) {
-        eat(TokenType.PLUS);
+        consumeToken(TokenType.PLUS);
       } else if (token.type == TokenType.MINUS) {
-        eat(TokenType.MINUS);
+        consumeToken(TokenType.MINUS);
       }
 
       node = OperatorNode(left: node, op: token, right: term());

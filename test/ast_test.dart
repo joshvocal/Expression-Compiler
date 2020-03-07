@@ -63,7 +63,7 @@ void main() {
     expect(1.0, actual);
   });
 
-  test('should throw UnsupportedException from operator', () {
+  test('should throw UnsupportedException from operatort', () {
     var divideToken = Token(type: TokenType.DIVIDE, value: 'a');
 
     try {

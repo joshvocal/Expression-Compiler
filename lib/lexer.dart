@@ -29,7 +29,7 @@ class Lexer {
     }
   }
 
-  double integer() {
+  double _parseNumber() {
     var result = '';
 
     while (_currentChar != null && double.tryParse(_currentChar) != null) {
@@ -52,7 +52,7 @@ class Lexer {
       }
 
       if (double.tryParse(_currentChar) != null) {
-        return IntegerToken(integer());
+        return IntegerToken(_parseNumber());
       }
 
       if (_currentChar == '+') {

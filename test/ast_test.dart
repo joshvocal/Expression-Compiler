@@ -10,10 +10,10 @@ void main() {
   test('should calculate 1 + 1 correctly', () {
     var plusToken = Token(type: TokenType.PLUS, value: '+');
 
-    var addNode = BinaryOp(
-      left: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+    var addNode = OperatorNode(
+      left: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
       op: plusToken,
-      right: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+      right: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
     );
 
     var actual = interpreter.visitNode(addNode);
@@ -24,10 +24,10 @@ void main() {
   test('should calculate 1 - 1 correctly', () {
     var minusToken = Token(type: TokenType.MINUS, value: '-');
 
-    var minusNode = BinaryOp(
-      left: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+    var minusNode = OperatorNode(
+      left: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
       op: minusToken,
-      right: Num(Token(type: TokenType.INTEGER, value: 1.0)),
+      right: NumberNode(Token(type: TokenType.INTEGER, value: 1.0)),
     );
 
     var actual = interpreter.visitNode(minusNode);
@@ -38,10 +38,10 @@ void main() {
   test('should calculate 1 * 1 correctly', () {
     var multiplyToken = Token(type: TokenType.MULTIPLY, value: '*');
 
-    var multiplyNode = BinaryOp(
-      left: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+    var multiplyNode = OperatorNode(
+      left: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
       op: multiplyToken,
-      right: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      right: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
     );
 
     var actual = interpreter.visitNode(multiplyNode);
@@ -52,10 +52,10 @@ void main() {
   test('should calculate 1 / 1 correctly', () {
     var divideToken = Token(type: TokenType.DIVIDE, value: '/');
 
-    var divideNode = BinaryOp(
-      left: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+    var divideNode = OperatorNode(
+      left: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
       op: divideToken,
-      right: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      right: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
     );
 
     var actual = interpreter.visitNode(divideNode);
@@ -67,10 +67,10 @@ void main() {
     var divideToken = Token(type: TokenType.DIVIDE, value: 'a');
 
     try {
-      var divideNode = BinaryOp(
-        left: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+      var divideNode = OperatorNode(
+        left: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
         op: divideToken,
-        right: Num(Token(type: TokenType.MULTIPLY, value: 1.0)),
+        right: NumberNode(Token(type: TokenType.MULTIPLY, value: 1.0)),
       );
 
       interpreter.visitNode(divideNode);

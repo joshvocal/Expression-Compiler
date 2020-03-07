@@ -28,7 +28,7 @@ class Parser {
     if (token.type == TokenType.INTEGER) {
       eat(TokenType.INTEGER);
 
-      return Num(token);
+      return NumberNode(token);
     } else if (token.type == TokenType.OPEN_BRACKET) {
       eat(TokenType.OPEN_BRACKET);
       var node = expr();
@@ -54,7 +54,7 @@ class Parser {
         eat(TokenType.DIVIDE);
       }
 
-      node = BinaryOp(left: node, op: token, right: factor());
+      node = OperatorNode(left: node, op: token, right: factor());
     }
 
     return node;
@@ -73,7 +73,7 @@ class Parser {
         eat(TokenType.MINUS);
       }
 
-      node = BinaryOp(left: node, op: token, right: term());
+      node = OperatorNode(left: node, op: token, right: term());
     }
 
     return node;

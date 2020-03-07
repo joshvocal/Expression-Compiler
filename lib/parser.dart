@@ -12,7 +12,7 @@ class Parser {
     _currentToken = lexer.getNextToken();
   }
 
-  void consumeToken(TokenType tokenType) {
+  void _consumeToken(TokenType tokenType) {
     if (_currentToken.type == tokenType) {
       _currentToken = _lexer.getNextToken();
       return;
@@ -21,18 +21,17 @@ class Parser {
     throw FormulaException('Error');
   }
 
-  AstNode factor() {
+  AstNode _factor() {
     var token = _currentToken;
-    print('Factor: ${_currentToken.type} ${_currentToken.value}');
 
     if (token.type == TokenType.integer) {
-      consumeToken(TokenType.integer);
+      _consumeToken(TokenType.integer);
 
       return NumberNode(token);
     } else if (token.type == TokenType.openBracket) {
-      consumeToken(TokenType.openBracket);
-      var node = expr();
-      consumeToken(TokenType.closeBracket);
+      _consumeToken(TokenType.openBracket);
+      var node = _expr();
+      _consumeToken(TokenType.closeBracket);
 
       return node;
     }
@@ -40,46 +39,43 @@ class Parser {
     throw TokenException(token.value);
   }
 
-  AstNode term() {
-    var node = factor();
-    print('Term: ${_currentToken.type} ${_currentToken.value}');
+  AstNode _term() {
+    var node = _factor();
 
-    while (
-        [TokenType.multiply, TokenType.divide].contains(_currentToken.type)) {
+    while ([TokenType.multiply, TokenType.divide].contains(_currentToken.type)) {
       var token = _currentToken;
 
       if (token.type == TokenType.multiply) {
-        consumeToken(TokenType.multiply);
+        _consumeToken(TokenType.multiply);
       } else if (token.type == TokenType.divide) {
-        consumeToken(TokenType.divide);
+        _consumeToken(TokenType.divide);
       }
 
-      node = OperatorNode(left: node, op: token, right: factor());
+      node = OperatorNode(left: node, op: token, right: _factor());
     }
 
     return node;
   }
 
-  AstNode expr() {
-    var node = term();
-    print('Expr: ${_currentToken.type} ${_currentToken.value}');
+  AstNode _expr() {
+    var node = _term();
 
     while ([TokenType.add, TokenType.subtract].contains(_currentToken.type)) {
       var token = _currentToken;
 
       if (token.type == TokenType.add) {
-        consumeToken(TokenType.add);
+        _consumeToken(TokenType.add);
       } else if (token.type == TokenType.subtract) {
-        consumeToken(TokenType.subtract);
+        _consumeToken(TokenType.subtract);
       }
 
-      node = OperatorNode(left: node, op: token, right: term());
+      node = OperatorNode(left: node, op: token, right: _term());
     }
 
     return node;
   }
 
   AstNode parse() {
-    return expr();
+    return _expr();
   }
 }

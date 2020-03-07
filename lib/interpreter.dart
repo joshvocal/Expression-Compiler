@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ast/ast_node.dart';
 import 'package:ast/exceptions.dart';
 import 'package:ast/parser.dart';
@@ -13,15 +15,15 @@ class Interpreter {
 
   dynamic visitNode(AstNode node) {
     if (node is OperatorNode) {
-      return visitBinaryOp(node);
+      return _visitBinaryOp(node);
     } else if (node is NumberNode) {
-      return visitNum(node);
+      return _visitNum(node);
     }
 
     throw UnsupportedError(node.runtimeType.toString());
   }
 
-  double visitBinaryOp(OperatorNode node) {
+  double _visitBinaryOp(OperatorNode node) {
     switch (node.op.type) {
       case TokenType.add:
         return visitNode(node.left) + visitNode(node.right);
@@ -45,7 +47,7 @@ class Interpreter {
     throw TokenException(node.op.type.toString());
   }
 
-  dynamic visitNum(NumberNode node) {
+  dynamic _visitNum(NumberNode node) {
     return node.value;
   }
 

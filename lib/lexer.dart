@@ -12,7 +12,7 @@ class Lexer {
     _currentChar = text[_position];
   }
 
-  void advance() {
+  void _advance() {
     _position += 1;
 
     if (_position > _text.length - 1) {
@@ -22,18 +22,18 @@ class Lexer {
     }
   }
 
-  void skipWhitespace() {
+  void _skipWhitespace() {
     while (_currentChar != null && _currentChar == ' ') {
-      advance();
+      _advance();
     }
   }
 
-  double integer() {
+  double _parseNumber() {
     var result = '';
 
     while (_currentChar != null && double.tryParse(_currentChar) != null) {
       result += _currentChar;
-      advance();
+      _advance();
     }
 
     if (double.tryParse(result) == null) {
@@ -46,47 +46,47 @@ class Lexer {
   Token getNextToken() {
     while (_currentChar != null) {
       if (_currentChar == ' ') {
-        skipWhitespace();
+        _skipWhitespace();
         continue;
       }
 
       if (double.tryParse(_currentChar) != null) {
-        return Token(TokenType.integer, integer());
+        return IntegerToken(_parseNumber());
       }
 
       if (_currentChar == '+') {
-        advance();
-        return Token(TokenType.add, '+');
+        _advance();
+        return AddToken();
       }
 
       if (_currentChar == '-') {
-        advance();
-        return Token(TokenType.subtract, '-');
+        _advance();
+        return SubtractToken();
       }
 
       if (_currentChar == '*') {
-        advance();
-        return Token(TokenType.multiply, '*');
+        _advance();
+        return MultiplyToken();
       }
 
       if (_currentChar == '/') {
-        advance();
-        return Token(TokenType.divide, '/');
+        _advance();
+        return DivideToken();
       }
 
       if (_currentChar == '(') {
-        advance();
-        return Token(TokenType.openBracket, '(');
+        _advance();
+        return OpenBracketToken();
       }
 
       if (_currentChar == ')') {
-        advance();
-        return Token(TokenType.closeBracket, ')');
+        _advance();
+        return CloseBracketToken();
       }
 
       throw TokenException(_currentChar);
     }
 
-    return Token(TokenType.eof, null);
+    return EOFToken();
   }
 }

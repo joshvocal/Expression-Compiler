@@ -18,7 +18,7 @@ class Parser {
       return;
     }
 
-    throw FormulaException('Error');
+    throw FormulaException('Token type does not match');
   }
 
   AstNode _factor() {
@@ -42,7 +42,8 @@ class Parser {
   AstNode _term() {
     var node = _factor();
 
-    while ([TokenType.multiply, TokenType.divide].contains(_currentToken.type)) {
+    while (
+        [TokenType.multiply, TokenType.divide].contains(_currentToken.type)) {
       var token = _currentToken;
 
       if (token.type == TokenType.multiply) {

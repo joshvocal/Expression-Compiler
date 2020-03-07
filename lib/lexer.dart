@@ -1,12 +1,13 @@
 import 'package:ast/exceptions.dart';
 import 'package:ast/token.dart';
+import 'package:meta/meta.dart';
 
 class Lexer {
   String _text;
   int _position;
   String _currentChar;
 
-  Lexer(String text) {
+  Lexer({@required String text}) : assert(text != null) {
     _text = text;
     _position = 0;
     _currentChar = text[_position];
@@ -28,7 +29,7 @@ class Lexer {
     }
   }
 
-  double _parseNumber() {
+  double integer() {
     var result = '';
 
     while (_currentChar != null && double.tryParse(_currentChar) != null) {
@@ -51,7 +52,7 @@ class Lexer {
       }
 
       if (double.tryParse(_currentChar) != null) {
-        return IntegerToken(_parseNumber());
+        return IntegerToken(integer());
       }
 
       if (_currentChar == '+') {

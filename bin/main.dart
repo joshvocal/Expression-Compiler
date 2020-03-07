@@ -18,7 +18,7 @@ void main() {
       continue;
     }
 
-    var lexer = Lexer(text);
+    var lexer = Lexer(text: text);
     var parser = Parser(lexer);
     var interpreter = Interpreter(parser: parser);
     var result = interpreter.interpret();

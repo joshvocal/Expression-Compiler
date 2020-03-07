@@ -1,81 +1,81 @@
-import 'package:ast/ast_node.dart';
 import 'package:ast/exceptions.dart';
 import 'package:ast/interpreter.dart';
-import 'package:ast/token.dart';
+import 'package:ast/lexer.dart';
+import 'package:ast/parser.dart';
 import 'package:test/test.dart';
 
 void main() {
-  var interpreter = Interpreter(parser: null);
-
   test('should calculate 1 + 1 correctly', () {
-    var plusToken = Token(TokenType.add, '+');
+    var lexer = Lexer(text: '1 + 1');
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var actualResult = interpreter.interpret();
 
-    var addNode = OperatorNode(
-      left: NumberNode(Token(TokenType.integer, 1.0)),
-      op: plusToken,
-      right: NumberNode(Token(TokenType.integer, 1.0)),
-    );
-
-    var actual = interpreter.visitNode(addNode);
-
-    expect(2.0, actual);
+    expect(actualResult, 2.0);
   });
 
   test('should calculate 1 - 1 correctly', () {
-    var minusToken = Token(TokenType.subtract, '-');
+    var lexer = Lexer(text: '1 - 1');
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var actualResult = interpreter.interpret();
 
-    var minusNode = OperatorNode(
-      left: NumberNode(Token(TokenType.integer, 1.0)),
-      op: minusToken,
-      right: NumberNode(Token(TokenType.integer, 1.0)),
-    );
-
-    var actual = interpreter.visitNode(minusNode);
-
-    expect(0.0, actual);
+    expect(actualResult, 0.0);
   });
 
   test('should calculate 1 * 1 correctly', () {
-    var multiplyToken = Token(TokenType.multiply, '*');
+    var lexer = Lexer(text: '1 * 1');
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var actualResult = interpreter.interpret();
 
-    var multiplyNode = OperatorNode(
-      left: NumberNode(Token(TokenType.multiply, 1.0)),
-      op: multiplyToken,
-      right: NumberNode(Token(TokenType.multiply, 1.0)),
-    );
-
-    var actual = interpreter.visitNode(multiplyNode);
-
-    expect(1.0, actual);
+    expect(actualResult, 1.0);
   });
 
   test('should calculate 1 / 1 correctly', () {
-    var divideToken = Token(TokenType.divide, '/');
+    var lexer = Lexer(text: '1 / 1');
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var actualResult = interpreter.interpret();
 
-    var divideNode = OperatorNode(
-      left: NumberNode(Token(TokenType.multiply, 1.0)),
-      op: divideToken,
-      right: NumberNode(Token(TokenType.multiply, 1.0)),
-    );
-
-    var actual = interpreter.visitNode(divideNode);
-
-    expect(1.0, actual);
+    expect(actualResult, 1.0);
   });
 
-  test('should throw UnsupportedException from operatort', () {
-    var divideToken = Token(TokenType.divide, 'a');
-
+  test('should throw TokenException from operator', () {
     try {
-      var divideNode = OperatorNode(
-        left: NumberNode(Token(TokenType.multiply, 1.0)),
-        op: divideToken,
-        right: NumberNode(Token(TokenType.multiply, 1.0)),
-      );
-
-      interpreter.visitNode(divideNode);
+      var lexer = Lexer(text: '1 a 1');
+      var parser = Parser(lexer);
+      var interpreter = Interpreter(parser: parser);
+      interpreter.interpret();
     } catch (e) {
-      expect(e, UnsupportedException);
+      expect(TokenException, e.runtimeType);
     }
+  });
+
+  test('should calculate brackets correctly', () {
+    var lexer = Lexer(text: '4 * (1 + 1)');
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var actualResult = interpreter.interpret();
+
+    expect(actualResult, 8.0);
+  });
+
+  test('should calculate a + b / (c - d) correctly', () {
+    var lexer = Lexer(text: '4 + 3 / (2 - 1)');
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var actualResult = interpreter.interpret();
+
+    expect(actualResult, 7.0);
+  });
+
+  test('should handle nested brackets correctly', () {
+    var lexer = Lexer(text: '((5 + 1))');
+    var parser = Parser(lexer);
+    var interpreter = Interpreter(parser: parser);
+    var actualResult = interpreter.interpret();
+
+    expect(actualResult, 6.0);
   });
 }

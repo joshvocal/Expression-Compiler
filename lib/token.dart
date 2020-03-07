@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 
 class Token {
   final TokenType type;

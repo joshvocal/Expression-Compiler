@@ -15,15 +15,15 @@ class Interpreter {
 
   dynamic visitNode(AstNode node) {
     if (node is OperatorNode) {
-      return _visitBinaryOp(node);
+      return _visitOperatorNode(node);
     } else if (node is NumberNode) {
-      return _visitNum(node);
+      return _visitNumberNode(node);
     }
 
     throw UnsupportedError(node.runtimeType.toString());
   }
 
-  double _visitBinaryOp(OperatorNode node) {
+  double _visitOperatorNode(OperatorNode node) {
     switch (node.op.type) {
       case TokenType.add:
         return visitNode(node.left) + visitNode(node.right);
@@ -47,7 +47,7 @@ class Interpreter {
     throw TokenException(node.op.type.toString());
   }
 
-  dynamic _visitNum(NumberNode node) {
+  dynamic _visitNumberNode(NumberNode node) {
     return node.value;
   }
 
